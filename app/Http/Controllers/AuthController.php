@@ -44,7 +44,22 @@ class AuthController extends Controller
      */
     public function me()
     {
-        return response()->json(auth()->user());
+        return response()->json(auth()->user(),201);
+    }
+
+    /**
+     * Get the list of users.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function allusers()
+    {
+        if( auth()->user()->role == 'U' ){
+            return response()->json(['error' => 'Unauthorized.'], 401);
+        }
+        
+        $users = User::all();
+        return response()->json($users,201);
     }
 
     /**
@@ -91,6 +106,9 @@ class AuthController extends Controller
             'name' => 'required',
             'email' => 'required|string|email|max:100|unique:users',
             'password' => 'required|string|min:6',
+            'document_type' => 'required|string|min:2',
+            'document' => 'required|integer',
+            'role' => 'required|string|min:1',
         ]);
         if($validator->fails()){
             return response()->json($validator->errors()->toJson(),400);
