@@ -76,7 +76,19 @@ class JobController extends Controller
      */
     public function update(Request $request)
     {
-        //
+        if( auth()->user()->role == 'U' ){
+            return response()->json(['error' => 'Unauthorized.'], 401);
+        }
+
+        $job = Job::findOrFail($request->id);
+        $job->name = $request->name;
+        $job->status = $request->status;
+        $job->save();
+
+        return response()->json([
+            'message' => '¡Oferta de trabajo modificada exitosamente!',
+            'job' => $job
+        ], 201);
     }
 
     /**
@@ -120,6 +132,5 @@ class JobController extends Controller
             'message' => '¡Aplicó exitosamente a esta oferta laboral!',
             'job' => $job
         ], 201);
-
     }
 }

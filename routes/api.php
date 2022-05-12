@@ -25,7 +25,7 @@ Route::group([
     Route::post('login', 'App\Http\Controllers\AuthController@login');
     Route::post('logout', 'App\Http\Controllers\AuthController@logout');
     Route::post('refresh', 'App\Http\Controllers\AuthController@refresh');
-    Route::post('me', 'App\Http\Controllers\AuthController@me');
+    Route::get('me', 'App\Http\Controllers\AuthController@me');
     Route::post('register', 'App\Http\Controllers\AuthController@register');
     Route::get('users', 'App\Http\Controllers\AuthController@allusers');
     // Endpoints de Ofertas de trabajo
@@ -33,4 +33,5 @@ Route::group([
     Route::get('jobs/{id}', 'App\Http\Controllers\JobController@show');
     Route::get('apply/{id}', 'App\Http\Controllers\JobController@apply');
     Route::post('jobs', 'App\Http\Controllers\JobController@store');
+    Route::put('jobs/{id}', 'App\Http\Controllers\JobController@update');
 });
