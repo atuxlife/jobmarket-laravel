@@ -133,4 +133,22 @@ class JobController extends Controller
             'job' => $job
         ], 201);
     }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function jobslist()
+    {
+        $jobsusers = JobsUsers::join('jobs', 'jobs_users.job_id', '=', 'jobs.id')
+                                ->join('users', 'jobs_users.user_id', '=', 'users.id')
+                                ->select('jobs.id as job_id', 'jobs.name as job', 'jobs.status', 'users.id as postulant_id', 
+                                         'users.name as postulant', 'users.email', 'users.document_type', 'users.document')
+                                ->orderBy('job_id', 'desc')
+                                ->orderBy('postulant_id', 'desc')
+                                ->get();
+        
+        return response()->json($jobsusers,201);
+    }
 }

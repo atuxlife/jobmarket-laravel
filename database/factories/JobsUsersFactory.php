@@ -19,8 +19,8 @@ class JobsUsersFactory extends Factory
     public function definition()
     {
         return [
-            'user_id'   => User::all()->random()->id,
-            'job_id'    => Job::all()->random()->id,
+            'user_id'   => User::all()->where('role', '=', 'U')->random()->id,
+            'job_id'    => Job::all()->where('status', '=', true)->random()->id,
         ];
     }
 }

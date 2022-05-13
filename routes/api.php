@@ -34,4 +34,5 @@ Route::group([
     Route::get('apply/{id}', 'App\Http\Controllers\JobController@apply');
     Route::post('jobs', 'App\Http\Controllers\JobController@store');
     Route::put('jobs/{id}', 'App\Http\Controllers\JobController@update');
+    Route::get('jobslist', 'App\Http\Controllers\JobController@jobslist');
 });

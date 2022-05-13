@@ -14,6 +14,6 @@ class JobsUsersSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\JobsUsers::factory(20)->create();
+        \App\Models\JobsUsers::factory(30)->create();
     }
 }
