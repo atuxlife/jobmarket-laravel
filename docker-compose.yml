@@ -1,0 +1,53 @@
+version: "3.7"
+
+services:
+    app:
+        image: "laratest/app:${TAG:-latest}"
+        build:
+            args:
+                user: jobmarket
+                uid: 1000
+            context: ./
+            dockerfile: Dockerfile
+        container_name: jobmarket-app
+        restart: unless-stopped
+        working_dir: /var/www/
+        volumes:
+            - ./:/var/www
+        networks:
+            - test-network
+
+    web:
+        image: nginx:1.19.4
+        container_name: test-nginx
+        restart: unless-stopped
+        ports:
+            - ${SERVER_PORT:-8080}:80
+        volumes:
+            - ./:/var/www
+            - ./docker-compose/nginx:/etc/nginx/conf.d/
+        networks:
+            - test-network
+
+    db:
+        image: mysql:5.7
+        container_name: test-db
+        restart: unless-stopped
+        ports:
+            - ${SERVER_PORT_DB:-3307}:3306
+        volumes:
+            - dbdata:/var/lib/mysql
+        environment:
+            - MYSQL_DATABASE=${DB_DATABASE:-jobmarket}
+            - MYSQL_USER=${DB_USERNAME:-jobmarket}
+            - MYSQL_PASSWORD=${DB_PASSWORD:-AZ92adx}
+            - MYSQL_ROOT_PASSWORD=${DB_PASSWORD:-AZ92adx}
+        networks:
+            - test-network
+
+networks:
+    test-network:
+        driver: bridge
+
+volumes:
+    dbdata:
