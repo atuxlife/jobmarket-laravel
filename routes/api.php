@@ -3,6 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\JobController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -22,17 +25,17 @@ Route::group([
     'middleware' => 'api',
     'prefix' => 'auth'
 ], function ($router){
-    Route::post('login', 'AuthController@login');
-    Route::post('logout', 'AuthController@logout');
-    Route::post('refresh', 'AuthController@refresh');
-    Route::get('me', 'AuthController@me');
-    Route::post('register', 'AuthController@register');
-    Route::get('users', 'AuthController@allusers');
+    Route::post('login', [AuthController::class, 'login']);
+    Route::post('logout', [AuthController::class, 'logout']);
+    Route::post('refresh', [AuthController::class, 'refresh']);
+    Route::get('me', [AuthController::class, 'me']);
+    Route::post('register', [AuthController::class, 'register']);
+    Route::get('users', [AuthController::class, 'allusers']);
     // Endpoints de Ofertas de trabajo
-    Route::get('jobs', 'JobController@index');
-    Route::get('jobs/{id}', 'JobController@show');
-    Route::get('apply/{id}', 'JobController@apply');
-    Route::post('jobs', 'JobController@store');
-    Route::put('jobs/{id}', 'JobController@update');
-    Route::get('jobslist', 'JobController@jobslist');
+    Route::get('jobs', [JobController::class, 'index']);
+    Route::get('jobs/{id}', [JobController::class, 'show']);
+    Route::get('apply/{id}', [JobController::class, 'apply']);
+    Route::post('jobs', [JobController::class, 'store']);
+    Route::put('jobs/{id}', [JobController::class, 'update']);
+    Route::get('jobslist', [JobController::class, 'jobslist']);
 });
